@@ -1,0 +1,41 @@
+{
+    "name": "appertly/minotaur",
+    "type": "library",
+    "description": "A library that helps you write web applications",
+    "keywords": ["php", "web", "webapp", "web application"],
+    "homepage": "https://github.com/appertly/minotaur",
+    "license": "Apache-2.0",
+    "extra": {
+        "branch-alias": {
+            "dev-master": "0.7.x-dev"
+        }
+    },
+    "require": {
+        "php": ">=7.1",
+        "psr/http-message": "^1.0",
+        "psr/log": "^1.0",
+        "caridea/acl": "^2.1.2",
+        "caridea/auth": "^2.0.0",
+        "caridea/container": "^2.2.0",
+        "caridea/dao": "^2.0.0",
+        "caridea/http": "^2.0.0",
+        "caridea/validate": "^2.0.0",
+        "aura/router": "^3.0",
+        "relay/relay": "^1.1"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^6.0",
+        "mockery/mockery": "^0.9",
+        "mongodb/mongodb": "^1.1",
+        "zendframework/zend-diactoros": "^1.0"
+    },
+    "suggest": {
+        "ext-mongodb": "Allows use of Minotaur\\Db MongoDB classes",
+        "mongodb/mongodb": "Version 1.1.x allows use of Minotaur\\Db\\MongoFileService"
+    },
+    "autoload": {
+        "psr-4": {
+            "Minotaur\\": "src/"
+        }
+    }
+}

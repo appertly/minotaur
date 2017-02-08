@@ -1,0 +1,17 @@
+sudo: required
+dist: trusty
+language: php
+php:
+  - 7.1
+before_install:
+  - composer self-update
+install:
+  - composer update --prefer-source
+script:
+  - vendor/bin/phpunit --coverage-clover=coverage.clover
+after_script:
+  - sh -c 'wget https://scrutinizer-ci.com/ocular.phar'
+  - sh -c 'php ocular.phar code-coverage:upload --format=php-clover coverage.clover'
+cache:
+  directories:
+    - $HOME/.composer/cache
