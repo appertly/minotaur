@@ -18,18 +18,26 @@ declare(strict_types=1);
  * @copyright 2015-2017 Appertly
  * @license   Apache-2.0
  */
-namespace Minotaur\View;
+
+use Minotaur\Tags\Composited;
+use Minotaur\Tags\Node;
+use Minotaur\Tags\Tag;
 
 /**
- * Provides an XHP node of content.
+ * Fieldset
  */
-interface Block
+class axe_fieldset extends Composited
 {
-    /**
-     * Compose the content.
-     *
-     * @param \Psr\Http\Message\ServerRequestInterface $request The server request
-     * @return \Minotaur\Tags\Node The content to render
-     */
-    public function compose(?\Psr\Http\Message\ServerRequestInterface $request = null): \Minotaur\Tags\Node
+    protected function render(): Node
+    {
+        $class = $this->getAttribute('inline') ? 'inline-fieldset' : 'fieldset-and-legend';
+        $a = new Tag("fieldset.$class", [], [
+            new Tag('legend', [], [
+                new Tag('span.legend-text', [], $this->ensureAttribute('legend', 'string', ''))
+            ]),
+            new Tag('div.form-groups', [], $this->getChildren()),
+        ]);
+        $this->transferAllAttributes($a, ['inline', 'legend']);
+        return $a;
+    }
 }

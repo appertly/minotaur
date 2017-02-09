@@ -18,18 +18,28 @@ declare(strict_types=1);
  * @copyright 2015-2017 Appertly
  * @license   Apache-2.0
  */
-namespace Minotaur\View;
+
+use Minotaur\Tags\Composited;
+use Minotaur\Tags\Frag;
+use Minotaur\Tags\Node;
+use Minotaur\Tags\Tag;
 
 /**
- * Provides an XHP node of content.
+ * Phone Number Link
  */
-interface Block
+class axe_phone_number extends Composited
 {
-    /**
-     * Compose the content.
-     *
-     * @param \Psr\Http\Message\ServerRequestInterface $request The server request
-     * @return \Minotaur\Tags\Node The content to render
-     */
-    public function compose(?\Psr\Http\Message\ServerRequestInterface $request = null): \Minotaur\Tags\Node
+    protected function render(): Node
+    {
+        $text = trim((string) $this->getAttribute('phone'));
+        $kids = $this->getChildren();
+        if (empty($kids)) {
+            $kids = $text;
+        }
+        if (strlen($text) > 0) {
+            return new Tag('a', ['href' => "tel:$text"], $kids);
+        } else {
+            return new Frag($kids);
+        }
+    }
 }

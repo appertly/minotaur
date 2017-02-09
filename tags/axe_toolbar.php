@@ -18,18 +18,22 @@ declare(strict_types=1);
  * @copyright 2015-2017 Appertly
  * @license   Apache-2.0
  */
-namespace Minotaur\View;
+
+use Minotaur\Tags\Composited;
+use Minotaur\Tags\Node;
+use Minotaur\Tags\Tag;
 
 /**
- * Provides an XHP node of content.
+ * Toolbar control
  */
-interface Block
+class axe_toolbar extends Composited
 {
-    /**
-     * Compose the content.
-     *
-     * @param \Psr\Http\Message\ServerRequestInterface $request The server request
-     * @return \Minotaur\Tags\Node The content to render
-     */
-    public function compose(?\Psr\Http\Message\ServerRequestInterface $request = null): \Minotaur\Tags\Node
+    protected function render(): Node
+    {
+        $t = new Tag('div', ['role' => "toolbar", 'aria-label' => $this->getAttribute('label')],
+            $this->getChildren()
+        );
+        $this->transferAllAttributes($t, ['label']);
+        return $t;
+    }
 }

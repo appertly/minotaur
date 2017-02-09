@@ -18,27 +18,47 @@ declare(strict_types=1);
  * @copyright 2015-2017 Appertly
  * @license   Apache-2.0
  */
-namespace Minotaur\View;
+namespace Minotaur\Tags;
 
 /**
- * Allows the creation of `<a>` nodes that point to an entity's canonical location.
+ * Holds scalar PHP values.
  */
-interface EntityLinker
+final class Scalar implements Child
 {
     /**
-     * Whether this linker supports the provided entity.
-     *
-     * @param $entity - The entity to link
-     * @return - `true` if the entity is supported
+     * @var string|float|int
      */
-    public function supports($entity): bool;
+    private $value;
 
     /**
-     * Composes the link for a given entity.
-     *
-     * @param mixed $entity The entity to link
-     * @return \Minotaur\Tags\Node The node for the entity's link
-     * @throws \InvalidArgumentException if the entity isn't supported
+     * Creates a new Scalar.
      */
-    public function compose($entity): \Minotaur\Tags\Node;
+    public function __construct($value)
+    {
+        $this->value = $value;
+    }
+
+    /**
+     * Gets the scalar value. We may not need this method.
+     */
+    public function getValue()
+    {
+        return $this->value;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function __toString(): string
+    {
+        return htmlspecialchars((string) $this->value);
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function jsonSerialize(): string
+    {
+        return htmlspecialchars((string) $this->value);
+    }
 }

@@ -18,18 +18,27 @@ declare(strict_types=1);
  * @copyright 2015-2017 Appertly
  * @license   Apache-2.0
  */
-namespace Minotaur\View;
+
+use Minotaur\Tags\Composited;
+use Minotaur\Tags\Node;
+use Minotaur\Tags\Frag;
+use Minotaur\Tags\Tag;
 
 /**
- * Provides an XHP node of content.
+ * Breadcrumbs
  */
-interface Block
+class axe_breadcrumbs extends Composited
 {
-    /**
-     * Compose the content.
-     *
-     * @param \Psr\Http\Message\ServerRequestInterface $request The server request
-     * @return \Minotaur\Tags\Node The content to render
-     */
-    public function compose(?\Psr\Http\Message\ServerRequestInterface $request = null): \Minotaur\Tags\Node
+    protected function render(): Node
+    {
+        $frag = new Frag();
+        foreach ($this->getChildren() as $child) {
+            $frag->appendChild(
+                new Tag('li', ['class' => 'breadcrumb-item'], $child)
+            );
+        }
+        $ul = new Tag('ul', [], $frag);
+        $this->transferAttributes($ul);
+        return $ul;
+    }
 }

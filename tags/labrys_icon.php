@@ -1,5 +1,4 @@
 <?php
-declare(strict_types=1);
 /**
  * Minotaur
  *
@@ -18,18 +17,29 @@ declare(strict_types=1);
  * @copyright 2015-2017 Appertly
  * @license   Apache-2.0
  */
-namespace Minotaur\View;
+
+use Minotaur\Tags\Composited;
+use Minotaur\Tags\Frag;
+use Minotaur\Tags\Node;
+use Minotaur\Tags\Tag;
 
 /**
- * Provides an XHP node of content.
+ * FontAwesome icon
+ *
+ * ```xml
+ * <labrys:icon icon="group" />
+ * ```
  */
-interface Block
+class labrys_icon extends Composited
 {
-    /**
-     * Compose the content.
-     *
-     * @param \Psr\Http\Message\ServerRequestInterface $request The server request
-     * @return \Minotaur\Tags\Node The content to render
-     */
-    public function compose(?\Psr\Http\Message\ServerRequestInterface $request = null): \Minotaur\Tags\Node
+    protected function render(): Node
+    {
+        $icon = $this->getAttribute('icon');
+        if (!is_string($icon)) {
+            return new Frag();
+        }
+        $i = new Tag('i.fa.fa-' . $icon, ['role' => "presentation"]);
+        $this->transferAllAttributes($i, ['icon']);
+        return $i;
+    }
 }

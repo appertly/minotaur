@@ -34,8 +34,14 @@
         "mongodb/mongodb": "Version 1.1.x allows use of Minotaur\\Db\\MongoFileService"
     },
     "autoload": {
+        "classmap": [
+            "tags"
+        ],
         "psr-4": {
             "Minotaur\\": "src/"
-        }
+        },
+        "files": [
+            "src/Tags/functions.php"
+        ]
     }
 }

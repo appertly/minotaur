@@ -18,18 +18,17 @@ declare(strict_types=1);
  * @copyright 2015-2017 Appertly
  * @license   Apache-2.0
  */
-namespace Minotaur\View;
+namespace Minotaur\Tags;
 
 /**
- * Provides an XHP node of content.
+ * Interface for anything that can be a Tag child.
  */
-interface Block
+interface Child extends \JsonSerializable
 {
     /**
-     * Compose the content.
+     * Retrieves a string representation.
      *
-     * @param \Psr\Http\Message\ServerRequestInterface $request The server request
-     * @return \Minotaur\Tags\Node The content to render
+     * @return string
      */
-    public function compose(?\Psr\Http\Message\ServerRequestInterface $request = null): \Minotaur\Tags\Node
+    public function __toString(): string;
 }

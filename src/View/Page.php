@@ -20,6 +20,8 @@ declare(strict_types=1);
  */
 namespace Minotaur\View;
 
+use Minotaur\Tags\Tag;
+
 /**
  * Stores page information to pass along to rendering functions.
  */
@@ -46,21 +48,20 @@ class Page
      */
     private $classes = [];
     /**
-     * @var array<mixed>
+     * @var array<\Minotaur\Tags\Tag>
      */
-    // TODO figure out type
     private $metas = [];
     /**
-     * @var array<mixed>
+     * @var array<\Minotaur\Tags\Tag>
      */
-    // TODO figure out type
     private $links = [];
     /**
-     * @var array<mixed>
+     * @var array<\Minotaur\Tags\Tag>
      */
-    // TODO figure out type
     private $headScripts = [];
-    // TODO figure out type
+    /**
+     * @var array<\Minotaur\Tags\Tag>
+     */
     private $bodyScripts = [];
 
     /**
@@ -80,7 +81,8 @@ class Page
      */
     public function addBodyClasses(iterable $classes): self
     {
-        $this->classes->addAll($classes);
+        $classes = is_array($classes) ? $classes : iterator_to_array($classes);
+        array_push($this->classes, ...$classes);
         return $this;
     }
 
@@ -150,8 +152,9 @@ class Page
 
     /**
      * Gets the <script> tags in the page head.
+     *
+     * @return array<\Minotaur\Tags\Tag>
      */
-    // TODO figure out return type
     public function getHeadScripts(): array
     {
         return $this->headScripts;
@@ -160,9 +163,8 @@ class Page
     /**
      * Gets the <script> tags in the page body.
      *
-     * @return array<mixed>
+     * @return array<\Minotaur\Tags\Tag>
      */
-    // TODO figure out return type
     public function getBodyScripts(): array
     {
         return $this->bodyScripts;
@@ -209,8 +211,7 @@ class Page
      */
     public function addMeta(string $name, string $content): self
     {
-        // TODO figure out XHP replacement
-        // $this->metas->add(<meta name={$name} content={$content} />);
+        $this->metas->add(new Tag('meta', ['name' => $name, 'content' => $content]));
         return $this;
     }
 
@@ -224,15 +225,14 @@ class Page
      */
     public function addStylesheet(string $src, string $mime = '', iterable $media = null): self
     {
-        // TODO figure out XHP replacement
-        // $link = <link rel="stylesheet" href={$src} />;
-        // if (strlen($mime) > 0) {
-        //     $link->setAttribute('type', $mime);
-        // }
-        // if ($media !== null) {
-        //     $link->setAttribute('media', implode(',', $media));
-        // }
-        // $this->links[] = $link;
+        $link = new Tag('link', ['rel' => "stylesheet", 'href' => $src]);
+        if (strlen($mime) > 0) {
+            $link->setAttribute('type', $mime);
+        }
+        if ($media !== null) {
+            $link->setAttribute('media', implode(',', $media));
+        }
+        $this->links[] = $link;
         return $this;
     }
 
@@ -248,18 +248,17 @@ class Page
      */
     public function addLink(string $rel, string $href, string $sizes = '', string $crossorigin = '', string $integrity = ''): self
     {
-        // TODO figure out XHP replacement
-        // $link = <link rel={$rel} href={$href} />;
-        // if (strlen($sizes) > 0) {
-        //     $link->setAttribute('sizes', $sizes);
-        // }
-        // if (strlen($crossorigin) > 0) {
-        //     $link->setAttribute('crossorigin', $crossorigin);
-        // }
-        // if (strlen($integrity) > 0) {
-        //     $link->setAttribute('integrity', $integrity);
-        // }
-        // $this->links[] = $link;
+        $link = new Tag('link', ['rel' => $rel, 'href' => $href]);
+        if (strlen($sizes) > 0) {
+            $link->setAttribute('sizes', $sizes);
+        }
+        if (strlen($crossorigin) > 0) {
+            $link->setAttribute('crossorigin', $crossorigin);
+        }
+        if (strlen($integrity) > 0) {
+            $link->setAttribute('integrity', $integrity);
+        }
+        $this->links[] = $link;
         return $this;
     }
 
@@ -272,12 +271,11 @@ class Page
      */
     public function addHeadScript(string $src, string $mime = ''): self
     {
-        // TODO figure out XHP replacement
-        // $script = <script src={$src}></script>;
-        // if (strlen($mime) > 0) {
-        //     $script->setAttribute('type', $mime);
-        // }
-        // $this->headScripts[] = $script;
+        $script = new Tag('script', ['src' => $src]);
+        if (strlen($mime) > 0) {
+            $script->setAttribute('type', $mime);
+        }
+        $this->headScripts[] = $script;
         return $this;
     }
 
@@ -290,12 +288,11 @@ class Page
      */
     public function addHeadScriptInline(string $script, string $mime = ''): self
     {
-        // TODO figure out XHP replacement
-        // $script = <script>{$script}</script>;
-        // if (strlen($mime) > 0) {
-        //     $script->setAttribute('type', $mime);
-        // }
-        // $this->headScripts[] = $script;
+        $script = new Tag('script', [], $script);
+        if (strlen($mime) > 0) {
+            $script->setAttribute('type', $mime);
+        }
+        $this->headScripts[] = $script;
         return $this;
     }
 
@@ -308,12 +305,11 @@ class Page
      */
     public function addBodyScript(string $src, string $mime = ''): self
     {
-        // TODO figure out XHP replacement
-        // $script = <script src={$src}></script>;
-        // if (strlen($mime) > 0) {
-        //     $script->setAttribute('type', $mime);
-        // }
-        // $this->bodyScripts[] = $script;
+        $script = new Tag('script', ['src' => $src]);
+        if (strlen($mime) > 0) {
+            $script->setAttribute('type', $mime);
+        }
+        $this->bodyScripts[] = $script;
         return $this;
     }
 
@@ -326,12 +322,11 @@ class Page
      */
     public function addBodyScriptInline(string $script, string $mime = ''): self
     {
-        // TODO figure out XHP replacement
-        // $script = <script>{$script}</script>;
-        // if (strlen($mime) > 0) {
-        //     $script->setAttribute('type', $mime);
-        // }
-        // $this->bodyScripts[] = $script;
+        $script = new Tag('script', [], $script);
+        if (strlen($mime) > 0) {
+            $script->setAttribute('type', $mime);
+        }
+        $this->bodyScripts[] = $script;
         return $this;
     }
 }

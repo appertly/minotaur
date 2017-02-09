@@ -18,18 +18,26 @@ declare(strict_types=1);
  * @copyright 2015-2017 Appertly
  * @license   Apache-2.0
  */
-namespace Minotaur\View;
+
+use Minotaur\Tags\Composited;
+use Minotaur\Tags\Node;
+use Minotaur\Tags\Tag;
 
 /**
- * Provides an XHP node of content.
+ * Replaces newlines with paragraph tags.
  */
-interface Block
+class axe_paragraphs extends Composited
 {
-    /**
-     * Compose the content.
-     *
-     * @param \Psr\Http\Message\ServerRequestInterface $request The server request
-     * @return \Minotaur\Tags\Node The content to render
-     */
-    public function compose(?\Psr\Http\Message\ServerRequestInterface $request = null): \Minotaur\Tags\Node
+    protected function render(): Node
+    {
+        $text = trim((string) $this->getAttribute('text'));
+        $container = new Tag('div.paragraph-text');
+        foreach (preg_split("/[\r\n]+/m", $text) as $line) {
+            $container->appendChild(
+                new Tag('p', [], $line)
+            );
+        }
+        $this->transferAllAttributes($container, ['text']);
+        return $container;
+    }
 }

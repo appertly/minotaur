@@ -18,18 +18,31 @@ declare(strict_types=1);
  * @copyright 2015-2017 Appertly
  * @license   Apache-2.0
  */
-namespace Minotaur\View;
+
+use Minotaur\Tags\Composited;
+use Minotaur\Tags\Node;
+use Minotaur\Tags\Tag;
+use function Minotaur\Tags\fcomposited as c;
 
 /**
- * Provides an XHP node of content.
+ * A link styled as a button.
+ *
+ * ```xml
+ * <labrys:link-button href="http://example.com" icon="group">
+ *     Hello World
+ * </labrys:link-button>
+ * ```
  */
-interface Block
+class labrys_link_button extends Composited
 {
-    /**
-     * Compose the content.
-     *
-     * @param \Psr\Http\Message\ServerRequestInterface $request The server request
-     * @return \Minotaur\Tags\Node The content to render
-     */
-    public function compose(?\Psr\Http\Message\ServerRequestInterface $request = null): \Minotaur\Tags\Node
+    protected function render(): Node
+    {
+        $icon = (string) $this->getAttribute('icon', 'string', '');
+        $a = new Tag('a.btn', [], [
+            c('labrys_icon', ['icon' => $icon]),
+            new Tag('span.button-text', [], $this->getChildren())
+        ]);
+        $this->transferAllAttributes($a, ['icon']);
+        return $a;
+    }
 }

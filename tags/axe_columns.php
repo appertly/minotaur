@@ -18,18 +18,30 @@ declare(strict_types=1);
  * @copyright 2015-2017 Appertly
  * @license   Apache-2.0
  */
-namespace Minotaur\View;
+
+use Minotaur\Tags\Composited;
+use Minotaur\Tags\Node;
+use Minotaur\Tags\Frag;
+use Minotaur\Tags\Tag;
 
 /**
- * Provides an XHP node of content.
+ * Columns.
  */
-interface Block
+class axe_columns extends Composited
 {
-    /**
-     * Compose the content.
-     *
-     * @param \Psr\Http\Message\ServerRequestInterface $request The server request
-     * @return \Minotaur\Tags\Node The content to render
-     */
-    public function compose(?\Psr\Http\Message\ServerRequestInterface $request = null): \Minotaur\Tags\Node
+    protected function render(): Node
+    {
+        if ($this->getAttribute('golden')) {
+            $this->addClass('columns-golden');
+            $this->addClass("big-" . $this->getAttribute('big'));
+        }
+        $cols = new Tag('div.columns.clearfix');
+        $this->transferAllAttributes($cols, ['golden', 'big']);
+        foreach ($this->getChildren() as $child) {
+            $cols->appendChild(
+                new Tag('div.column', [], $child)
+            );
+        }
+        return $cols;
+    }
 }

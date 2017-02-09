@@ -55,10 +55,10 @@ abstract class AbstractDaoService implements EntityRepo
      *
      * @return - The backing DAO
      */
-    protected abstract function getDao(): EntityRepo;
+    abstract protected function getDao(): EntityRepo;
 
     /**
-     * {@inheritDoc}
+     * @inheritDoc
      */
     public function getType(): string
     {
@@ -66,7 +66,7 @@ abstract class AbstractDaoService implements EntityRepo
     }
 
     /**
-     * {@inheritDoc}
+     * @inheritDoc
      */
     public function countAll(array $criteria): int
     {
@@ -74,7 +74,7 @@ abstract class AbstractDaoService implements EntityRepo
     }
 
     /**
-     * {@inheritDoc}
+     * @inheritDoc
      */
     public function findOne(array $criteria)
     {
@@ -82,7 +82,7 @@ abstract class AbstractDaoService implements EntityRepo
     }
 
     /**
-     * {@inheritDoc}
+     * @inheritDoc
      */
     public function findAll(array $criteria, \Caridea\Http\Pagination $pagination = null, bool $totalCount = false): iterable
     {
@@ -90,7 +90,7 @@ abstract class AbstractDaoService implements EntityRepo
     }
 
     /**
-     * {@inheritDoc}
+     * @inheritDoc
      * @throws \Caridea\Acl\Exception\Forbidden If the user has no access
      */
     public function findById($id)
@@ -104,7 +104,7 @@ abstract class AbstractDaoService implements EntityRepo
     }
 
     /**
-     * {@inheritDoc}
+     * @inheritDoc
      * @throws \Caridea\Acl\Exception\Forbidden If the user has no access
      */
     public function get($id)
@@ -113,7 +113,7 @@ abstract class AbstractDaoService implements EntityRepo
     }
 
     /**
-     * {@inheritDoc}
+     * @inheritDoc
      * @throws \Caridea\Acl\Exception\Forbidden If the user has no access
      */
     public function getAll(iterable $ids): iterable
@@ -125,7 +125,7 @@ abstract class AbstractDaoService implements EntityRepo
     }
 
     /**
-     * {@inheritDoc}
+     * @inheritDoc
      */
     public function getInstanceMap(iterable $entities): array
     {

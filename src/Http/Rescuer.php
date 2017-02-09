@@ -41,7 +41,6 @@ class Rescuer implements \Minotaur\Route\Plugin
     /**
      * @var string The class name of the XHP to render
      */
-    // TODO figure out XHP replacement
     protected $xhpClass;
 
     /**
@@ -69,8 +68,10 @@ class Rescuer implements \Minotaur\Route\Plugin
     public function __construct(array $options = [])
     {
         $this->debug = (bool)($options['debug'] ?? false);
-        // TODO figure out XHP replacement
-        $c = (string)($options['xhpClass'] ?? 'xhp_labrys__error_page');
+        $c = (string)($options['xhpClass'] ?? 'labrys_error_page');
+        if (!is_subclass_of($c, \Minotaur\Tags\Node::class)) {
+            throw new \InvalidArgumentException("Class given in xhpClass option '$c' does not extend \Minotaur\Tags\Node");
+        }
         $this->xhpClass = $c;
     }
 
@@ -248,16 +249,13 @@ class Rescuer implements \Minotaur\Route\Plugin
     }
 
     /**
-     * Returns the XHP to render.
+     * Returns the HTML to render.
      *
      * @param array<string,mixed> $values The values
-     * @return mixed The HTML response
+     * @return \Minotaur\Tags\Node The HTML response
      */
-    // TODO figure out XHP replacement
-    protected function renderHtml(array $values)
+    protected function renderHtml(array $values): \Minotaur\Tags\Node
     {
-        $c = $this->xhpClass;
-        /* HH_IGNORE_ERROR[4026]: This definitely works */
-        return new $c(['values' => $values], []);
+        return \Minotaur\Tags\fcomposited($this->xhpClass, ['values' => $values]);
     }
 }

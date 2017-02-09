@@ -18,18 +18,17 @@ declare(strict_types=1);
  * @copyright 2015-2017 Appertly
  * @license   Apache-2.0
  */
-namespace Minotaur\View;
+namespace Minotaur\Tags;
 
 /**
- * Provides an XHP node of content.
+ * A node that outputs *raw* HTML. Be careful!
  */
-interface Block
+interface Raw extends Child
 {
     /**
-     * Compose the content.
+     * Returns all contexts currently set.
      *
-     * @param \Psr\Http\Message\ServerRequestInterface $request The server request
-     * @return \Minotaur\Tags\Node The content to render
+     * @return string  The string
      */
-    public function compose(?\Psr\Http\Message\ServerRequestInterface $request = null): \Minotaur\Tags\Node
+    public function toHtmlString(): string;
 }

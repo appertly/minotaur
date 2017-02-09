@@ -114,7 +114,7 @@ abstract class AbstractMongoDao extends MongoDbDao implements EntityRepo, DbRefR
     }
 
     /**
-     * {@inheritDoc}
+     * @inheritDoc
      */
     public function countAll(array $criteria): int
     {
@@ -139,7 +139,7 @@ abstract class AbstractMongoDao extends MongoDbDao implements EntityRepo, DbRefR
     }
 
     /**
-     * {@inheritDoc}
+     * @inheritDoc
      */
     public function findOne(array $criteria)
     {
@@ -155,7 +155,7 @@ abstract class AbstractMongoDao extends MongoDbDao implements EntityRepo, DbRefR
     }
 
     /**
-     * {@inheritDoc}
+     * @inheritDoc
      */
     public function findAll(array $criteria, \Caridea\Http\Pagination $pagination = null, bool $totalCount = false): iterable
     {
@@ -187,7 +187,7 @@ abstract class AbstractMongoDao extends MongoDbDao implements EntityRepo, DbRefR
     }
 
     /**
-     * {@inheritDoc}
+     * @inheritDoc
      */
     public function findById($id)
     {
@@ -204,7 +204,7 @@ abstract class AbstractMongoDao extends MongoDbDao implements EntityRepo, DbRefR
     }
 
     /**
-     * {@inheritDoc}
+     * @inheritDoc
      */
     public function get($id)
     {
@@ -212,7 +212,7 @@ abstract class AbstractMongoDao extends MongoDbDao implements EntityRepo, DbRefR
     }
 
     /**
-     * {@inheritDoc}
+     * @inheritDoc
      */
     public function getAll(iterable $ids): iterable
     {
@@ -248,7 +248,7 @@ abstract class AbstractMongoDao extends MongoDbDao implements EntityRepo, DbRefR
     }
 
     /**
-     * {@inheritDoc}
+     * @inheritDoc
      */
     public function getInstanceMap(iterable $entities): array
     {
@@ -286,7 +286,7 @@ abstract class AbstractMongoDao extends MongoDbDao implements EntityRepo, DbRefR
     }
 
     /**
-     * {@inheritDoc}
+     * @inheritDoc
      */
     public function isResolvable(string $ref): bool
     {
@@ -294,7 +294,7 @@ abstract class AbstractMongoDao extends MongoDbDao implements EntityRepo, DbRefR
     }
 
     /**
-     * {@inheritDoc}
+     * @inheritDoc
      */
     public function resolve(array $ref): ?T
     {
@@ -308,7 +308,7 @@ abstract class AbstractMongoDao extends MongoDbDao implements EntityRepo, DbRefR
     }
 
     /**
-     * {@inheritDoc}
+     * @inheritDoc
      */
     public function resolveAll(iterable $refs): iterable
     {
