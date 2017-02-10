@@ -7,6 +7,8 @@ before_install:
   - composer self-update
 install:
   - composer update --prefer-source
+before_script:
+  - phpenv config-add travis-php.ini
 script:
   - vendor/bin/phpunit --coverage-clover=coverage.clover
 after_script:
