@@ -37,7 +37,9 @@ class axe_checkboxes extends Composited
         $this->transferAllAttributes($inputs, ['name', 'options', 'inline', 'value']);
 
         $values = array_flip(
-            array_map(function ($a) { return (string) $a; }, $this->ensureAttribute('value', 'array', []))
+            array_map(function ($a) {
+                return (string) $a;
+            }, $this->ensureAttribute('value', 'array', []))
         );
         if ($this->getAttribute('inline')) {
             foreach ($options as $k => $v) {

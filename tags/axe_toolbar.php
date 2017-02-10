@@ -30,7 +30,9 @@ class axe_toolbar extends Composited
 {
     protected function render(): Node
     {
-        $t = new Tag('div', ['role' => "toolbar", 'aria-label' => $this->getAttribute('label')],
+        $t = new Tag(
+            'div',
+            ['role' => "toolbar", 'aria-label' => $this->getAttribute('label')],
             $this->getChildren()
         );
         $this->transferAllAttributes($t, ['label']);

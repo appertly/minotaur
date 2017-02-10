@@ -64,7 +64,7 @@ class labrys_error_page extends Composited
         $values = $this->ensureAttribute('values', 'iterable', []);
         $frag = new Frag();
         $extra = $values['extra'];
-        if (is_array($extra)){
+        if (is_array($extra)) {
             $errors = $extra['errors'] ?? null;
             if (is_iterable($errors)) {
                 $ul = new Tag('ul');

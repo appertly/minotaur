@@ -20,6 +20,7 @@
     <filter>
         <whitelist>
             <directory suffix=".php">src</directory>
+            <directory suffix=".php">tags</directory>
         </whitelist>
     </filter>
     <logging>

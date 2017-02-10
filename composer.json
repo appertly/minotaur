@@ -27,9 +27,11 @@
         "phpunit/phpunit": "^6.0",
         "mockery/mockery": "^0.9",
         "mongodb/mongodb": "^1.1",
+        "league/commonmark": "^0.13",
         "zendframework/zend-diactoros": "^1.0"
     },
     "suggest": {
+        "league/commonmark": "Version ^0.13 allows use of axe_markdown class",
         "ext-mongodb": "Allows use of Minotaur\\Db MongoDB classes",
         "mongodb/mongodb": "Version 1.1.x allows use of Minotaur\\Db\\MongoFileService"
     },
