@@ -2,7 +2,10 @@
 
 This is a library that helps you write web applications in PHP. It's a fork of Labrys, which was written in Hack.
 
-(Badges will go here).
+[![Packagist](https://img.shields.io/packagist/v/appertly/minotaur.svg)](https://packagist.org/packages/appertly/minotaur)
+[![Build Status](https://travis-ci.org/appertly/minotaur.svg)](https://travis-ci.org/appertly/minotaur)
+[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/appertly/minotaur/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/appertly/minotaur/?branch=master)
+[![Code Coverage](https://scrutinizer-ci.com/g/appertly/minotaur/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/appertly/minotaur/?branch=master)
 
 ## Installation
 
