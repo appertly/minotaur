@@ -5,10 +5,9 @@ php:
   - 7.1
 before_install:
   - composer self-update
+  - phpenv config-add travis-php.ini
 install:
   - composer update --prefer-source
-before_script:
-  - phpenv config-add travis-php.ini
 script:
   - vendor/bin/phpunit --coverage-clover=coverage.clover
 after_script:
