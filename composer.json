@@ -21,7 +21,8 @@
         "caridea/http": "^2.0.0",
         "caridea/validate": "^2.0.0",
         "aura/router": "^3.0",
-        "relay/relay": "^1.1"
+        "relay/relay": "^1.1",
+        "appertly/hcollection": "^1.0"
     },
     "require-dev": {
         "phpunit/phpunit": "^6.0",

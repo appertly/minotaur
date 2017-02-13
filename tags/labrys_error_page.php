@@ -105,10 +105,10 @@ class labrys_error_page extends Composited
         if (array_key_exists('class', $evalues)) {
             $frag->appendChild(new Tag('h2', [], $evalues['class']));
         }
-        if ($evalues->containsKey('message')) {
+        if (array_key_exists('message', $evalues)) {
             $frag->appendChild(new Tag('p', [], $evalues['message']));
         }
-        if ($evalues->containsKey('stack')) {
+        if (array_key_exists('stack', $evalues)) {
             $frag->appendChild(new Tag('pre', [], $evalues['stack']));
         }
         $p = $evalues['previous'] ?? null;

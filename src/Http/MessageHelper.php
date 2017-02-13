@@ -36,11 +36,10 @@ trait MessageHelper
      * @param $request - The request
      * @return array<string,mixed> The Map of request body content
      */
-    // TODO new Map class?
-    protected function getParsedBodyMap(Request $request): array
+    protected function getParsedBodyMap(Request $request): \ConstMap
     {
         $body = $request->getParsedBody();
-        return is_array($body) ? $body : [];
+        return is_array($body) ? new \HH\Map($body) : new \HH\Map();
     }
 
     /**
@@ -49,10 +48,9 @@ trait MessageHelper
      * @param $request - The request
      * @return array<string,mixed> The Map of query params
      */
-    // TODO new Map class?
-    protected function getQueryParamsMap(Request $request): array
+    protected function getQueryParamsMap(Request $request): \ConstMap
     {
-        return $request->getQueryParams();
+        return new \HH\Map($request->getQueryParams());
     }
 
     /**

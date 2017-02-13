@@ -56,7 +56,6 @@ class RescuerTest extends TestCase
 
     public function testRun2()
     {
-        $this->markTestSkipped(); // TODO figure out XHP replacement
         $object = new Rescuer(['debug' => true]);
         $status = 405;
         $next = function ($req, $res) use ($status) {
@@ -68,19 +67,18 @@ class RescuerTest extends TestCase
         $this->assertEquals('application/json', $out->getHeaderLine('Allows'));
         $this->assertEquals($status, $out->getStatusCode());
         $details = (string)$out->getBody();
-        $body = '<!DOCTYPE html><html lang="en"><head><meta charset="utf-8">'
+        $body = '<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"/>'
             . '<title>Method Not Allowed</title></head><body><header>'
             . '<h1>Method Not Allowed</h1></header><main role="main">'
             . "<p>You can't use that HTTP method for this URL. "
             . "Check the Allow response header for the ones you can.</p>"
             . "<div><h2>Minotaur\Route\Exception\Unroutable</h2><p>Method Not Allowed</p><pre>#0";
-        $assert->bool(substr($details, 0, strlen($body)) === $body)->is(true);
+        $this->assertEquals($body, substr($details, 0, strlen($body)));
     }
 
 
     public function testRun3()
     {
-        $this->markTestSkipped(); // TODO figure out XHP replacement
         $object = new Rescuer(['debug' => true]);
         $status = 404;
         $next = function ($req, $res) use ($status) {

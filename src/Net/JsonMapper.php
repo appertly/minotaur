@@ -29,33 +29,31 @@ class JsonMapper
      * Converts a JSON string to a Vector.
      *
      * @param $json - The JSON to convert
-     * @return - The `Vector` version
+     * @return \ConstVector  The `Vector` version
      * @throws \Minotaur\Net\Exception\Illegible if the JSON is invalid
      */
-    // TODO use new vector class?
-    public function toVector(?string $json)
+    public function toVector(?string $json): \ConstVector
     {
         $a = $json === null ? null : json_decode($json, true);
         if (!is_array($a)) {
             throw new Exception\Illegible($json, "Invalid JSON array");
         }
-        return new Vector($a);
+        return new \HH\Vector($a);
     }
 
     /**
      * Converts a JSON string to a Map.
      *
      * @param $json - The JSON to convert
-     * @return - The `Map` version
+     * @return \ConstMap  The `Map` version
      * @throws \Minotaur\Net\Exception\Illegible if the JSON is invalid
      */
-    // TODO use new Map class?
-    public function toMap(?string $json)
+    public function toMap(?string $json): \ConstMap
     {
         $a = $json === null ? null : json_decode($json, true);
         if (!is_array($a)) {
             throw new Exception\Illegible($json, "Invalid JSON map");
         }
-        return new Map($a);
+        return new HH\Map($a);
     }
 }
