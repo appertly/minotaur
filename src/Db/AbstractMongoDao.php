@@ -296,7 +296,7 @@ abstract class AbstractMongoDao extends MongoDbDao implements EntityRepo, DbRefR
     /**
      * @inheritDoc
      */
-    public function resolve(array $ref): ?T
+    public function resolve(array $ref)
     {
         if (!array_key_exists('$ref', $ref) || !array_key_exists('$id', $ref)) {
             throw new \InvalidArgumentException('Not a DBRef. Needs both $ref and $id keys.');
@@ -546,7 +546,7 @@ abstract class AbstractMongoDao extends MongoDbDao implements EntityRepo, DbRefR
      * @param $entity - The entity to possibly cache
      * @return - The same entity that came in
      */
-    protected function maybeCache(?T $entity) : ?T
+    protected function maybeCache($entity)
     {
         if ($this->caching && $entity !== null) {
             $id = (string) Getter::getId($entity);
