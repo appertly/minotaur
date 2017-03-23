@@ -4,6 +4,9 @@ use PHPUnit\Framework\TestCase;
 use function Minotaur\Tags\fcomposited as c;
 use function Minotaur\Tags\ftag as h;
 
+/**
+ * @requires extension intl
+ */
 class PrettyBytesTest extends TestCase
 {
     public function testRender()

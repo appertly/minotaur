@@ -125,7 +125,7 @@ trait JsonHelper
         $send = array_merge([], $extra);
         $send['success'] = true;
         $send['message'] = "Objects $verb successfully";
-        $send['objects'] = array_map(function ($id) {
+        $send['objects'] = array_map(function ($id) use ($type) {
             return ['type' => $type, 'id' => $id];
         }, $ids);
         return $this->sendJson($response, $send);
