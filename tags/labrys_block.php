@@ -41,7 +41,7 @@ class labrys_block extends Composited
         }
         $request = $this->getContext('request');
         $kid = $block->compose($request instanceof Request ? $request : null);
-        $out = new Tag('div.block', [], $kid);
+        $out = new Tag('div.block', [], [$kid]);
         $region = (string) $this->getContext('region');
         if ($region) {
             $out->addClass("$region-block");

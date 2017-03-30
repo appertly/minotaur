@@ -20,6 +20,7 @@ declare(strict_types=1);
  */
 namespace Minotaur\Db;
 
+use ArrayIterator;
 use MongoDB\BSON\ObjectID;
 use MongoDB\Driver\Cursor;
 use MongoDB\Driver\Manager;
@@ -238,12 +239,18 @@ abstract class AbstractMongoDao extends MongoDbDao implements EntityRepo, DbRefR
             $mids = array_filter($mids, function ($a) {
                 return !array_key_exists((string)$a, $this->cache);
             });
+            if(count($mids) < 2){
+              return array_merge(
+                  $fromCache,
+                  $this->maybeCacheAll($this->findAll(['_id' => $mids]))
+              );
+            }
             return array_merge(
                 $fromCache,
-                $this->maybeCacheAll($this->findAll(['_id' => ['$in' => $mids->toArray()]]))
+                $this->maybeCacheAll($this->findAll(['_id' => ['$in' => $mids]]))
             );
         } else {
-            return $this->maybeCacheAll($this->findAll(['_id' => ['$in' => $mids->toArray()]]));
+            return $this->maybeCacheAll($this->findAll(['_id' => ['$in' => $mids]]));
         }
     }
 
@@ -399,7 +406,7 @@ abstract class AbstractMongoDao extends MongoDbDao implements EntityRepo, DbRefR
         }
 
         $this->preUpdate($entity);
-        $this->cache->removeKey((string) $mid);
+        unset($this->cache[(string) $mid]);
         $wr = $this->doExecute(function (Manager $m, string $c) use ($mid, $ops) {
             $bulk = new \MongoDB\Driver\BulkWrite();
             $bulk->update(['_id' => $mid], $ops);
@@ -439,7 +446,7 @@ abstract class AbstractMongoDao extends MongoDbDao implements EntityRepo, DbRefR
         }
 
         // do update operation
-        $this->cache->removeKey((string)$id);
+        unset($this->cache[(string)$id]);
         return $this->doExecute(function (Manager $m, string $c) use ($mid, $ops) {
             $bulk = new \MongoDB\Driver\BulkWrite();
             $bulk->update(['_id' => $mid], $ops);
@@ -460,7 +467,7 @@ abstract class AbstractMongoDao extends MongoDbDao implements EntityRepo, DbRefR
     {
         $mid = $this->toId($id);
         $entity = $this->get($mid);
-        $this->cache->removeKey((string)$id);
+        unset($this->cache[(string)$id]);
         $this->preDelete($entity);
         $wr = $this->doExecute(function (Manager $m, string $c) use ($mid) {
             $bulk = new \MongoDB\Driver\BulkWrite();
@@ -485,7 +492,7 @@ abstract class AbstractMongoDao extends MongoDbDao implements EntityRepo, DbRefR
             list($db, $coll) = explode('.', $c, 2);
             $cmd = [
                 'aggregate' => $coll,
-                'pipeline' => $options->toArray(),
+                'pipeline' => $options,
             ];
             foreach ($options as $k => $v) {
                 $cmd[$k] = $v;
@@ -532,9 +539,9 @@ abstract class AbstractMongoDao extends MongoDbDao implements EntityRepo, DbRefR
                 }
             }
             if (!$projections->isEmpty()) {
-                $qo['projection'] = $projections->toArray();
+                $qo['projection'] = $projections;
             }
-            $q = new \MongoDB\Driver\Query($criteria->toArray(), $qo);
+            $q = new \MongoDB\Driver\Query($criteria, $qo);
             return $m->executeQuery($c, $q, $this->readPreference);
         });
         return $total === null ? $results : new CursorSubset($results, $total);
@@ -563,11 +570,11 @@ abstract class AbstractMongoDao extends MongoDbDao implements EntityRepo, DbRefR
      * @param $entities - The entities to possibly cache
      * @return - The same entities that came in
      */
-    protected function maybeCacheAll(\Iterator $entities): iterable
+    protected function maybeCacheAll(iterable $entities): iterable
     {
         if ($this->caching) {
             $results = $entities instanceof \MongoDB\Driver\Cursor ?
-                $entities->toArray() : iterator_to_array($entities, false);
+                $entities->toArray() : (is_array($entities) ? $entities : iterator_to_array($entities, false));
             foreach ($results as $entity) {
                 if ($entity !== null) {
                     $id = (string) Getter::getId($entity);

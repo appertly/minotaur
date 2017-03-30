@@ -92,7 +92,7 @@ class UploadGuard
     public function getMimeType(UploadedFileInterface $file, string $field, array $mimeTypes = []): string
     {
         $mime = $this->finfo->file($file->getStream()->getMetadata('uri'), FILEINFO_MIME_TYPE);
-        if ($mimeTypes !== null && !$mimeTypes->contains($mime)) {
+        if (!empty($mimeTypes) && !in_array($mime, $mimeTypes)) {
             $match = false;
             foreach ($mimeTypes as $t) {
                 if (substr($t, -2, 2) === '/*' &&

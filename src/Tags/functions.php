@@ -34,7 +34,7 @@ namespace Minotaur\Tags;
  * @param iterable|mixed $children  The child or children to add.
  * @return Tag  The tag
  */
-function ftag(string $name, array $attributes, $children = null): Tag
+function ftag(string $name, array $attributes = [], $children = null): Tag
 {
     return new Tag($name, $attributes, $children);
 }
@@ -54,7 +54,7 @@ function ftag(string $name, array $attributes, $children = null): Tag
  * @return Composited  The composited
  * @throws \InvalidArgumentException if `$class` doesn't extend `Composited`
  */
-function fcomposited(string $class, array $attributes, $children = null): Composited
+function fcomposited(string $class, array $attributes = [], $children = null): Composited
 {
     $rc = new \ReflectionClass($class);
     if (!$rc->isSubclassOf(Composited::class)) {
@@ -63,5 +63,6 @@ function fcomposited(string $class, array $attributes, $children = null): Compos
     $c = $rc->newInstanceWithoutConstructor();
     /** @var $c Composited */
     $c->setAttributes($attributes);
-    return $c->appendChild($children);
+    $c->appendChild($children);
+    return $c;
 }

@@ -33,7 +33,7 @@ class axe_columns extends Composited
     {
         if ($this->getAttribute('golden')) {
             $this->addClass('columns-golden');
-            $this->addClass("big-" . $this->getAttribute('big'));
+            $this->addClass("big-" . $this->ensureAttribute('big', 'string', 'right'));
         }
         $cols = new Tag('div.columns.clearfix');
         $this->transferAllAttributes($cols, ['golden', 'big']);

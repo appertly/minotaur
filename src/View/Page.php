@@ -82,7 +82,9 @@ class Page
     public function addBodyClasses(iterable $classes): self
     {
         $classes = is_array($classes) ? $classes : iterator_to_array($classes);
-        array_push($this->classes, ...$classes);
+        foreach($classes as $class){
+          $this->classes[] = $class;
+        }
         return $this;
     }
 
@@ -211,7 +213,7 @@ class Page
      */
     public function addMeta(string $name, string $content): self
     {
-        $this->metas->add(new Tag('meta', ['name' => $name, 'content' => $content]));
+        $this->metas[] = new Tag('meta', ['name' => $name, 'content' => $content]);
         return $this;
     }
 

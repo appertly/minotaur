@@ -57,7 +57,9 @@ class Gatekeeper
         $this->principal = $principal;
         $subjects = [\Caridea\Acl\Subject::principal((string)$principal->getUsername())];
         foreach ($subjectResolvers as $resolver) {
-            array_push($subjects, ...$resolver->getSubjects($principal));
+          foreach($resolver->getSubjects($principal) as $subject){
+            $subjects[] = $subject;
+          }
         }
         $this->subjects = $subjects;
     }

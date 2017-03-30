@@ -20,10 +20,10 @@ declare(strict_types=1);
  */
 namespace Minotaur\Http;
 
-/**
- * @covers \Minotaur\Http\JsonHelper
- */
-class JsonHelperTest extends \PHPUnit\Framework\TestCase
+use PHPUnit\Framework\TestCase;
+use Mockery as M;
+
+class JsonHelperTest extends TestCase
 {
     use JsonHelper;
 
@@ -86,63 +86,9 @@ class JsonHelperTest extends \PHPUnit\Framework\TestCase
     {
         $response = new \Zend\Diactoros\Response();
         $pagination = new \Caridea\Http\Pagination(3, 0);
-        $items = ['a', 'b', 'c'];
-        $output = $this->sendItems($response, $items, $pagination, 9);
+        $items = new \Minotaur\Db\CursorSubset(new \ArrayIterator(['a', 'b', 'c']), 9);
+        $output = $this->sendItems($response, $items, $pagination, 5);
         $this->assertEquals(json_encode($items), (string)$output->getBody());
         $this->assertEquals('items 0-2/9', $output->getHeaderLine('Content-Range'));
-    }
-
-    public function testCreated()
-    {
-        $response = new \Zend\Diactoros\Response();
-        $returned = $this->sendCreated($response, 'foobar', [1], ['foo' => 'bar']);
-        $this->assertEquals('application/json', $returned->getHeaderLine('Content-Type'));
-        $this->assertEquals(201, $returned->getStatusCode());
-        $this->assertEquals('Created', $returned->getReasonPhrase());
-        $out = [
-            'foo' => 'bar',
-            'success' => true,
-            'message' => 'Objects created successfully',
-            'objects' => [
-                ['type' => 'foobar', 'id' => 1]
-            ]
-        ];
-        $this->assertEquals(json_encode($out), (string) $returned->getBody());
-    }
-
-    public function testDeleted()
-    {
-        $response = new \Zend\Diactoros\Response();
-        $returned = $this->sendDeleted($response, 'foobar', [1], ['foo' => 'bar']);
-        $this->assertEquals('application/json', $returned->getHeaderLine('Content-Type'));
-        $this->assertEquals(200, $returned->getStatusCode());
-        $this->assertEquals('OK', $returned->getReasonPhrase());
-        $out = [
-            'foo' => 'bar',
-            'success' => true,
-            'message' => 'Objects deleted successfully',
-            'objects' => [
-                ['type' => 'foobar', 'id' => 1]
-            ]
-        ];
-        $this->assertEquals(json_encode($out), (string) $returned->getBody());
-    }
-
-    public function testUpdated()
-    {
-        $response = new \Zend\Diactoros\Response();
-        $returned = $this->sendUpdated($response, 'foobar', [1], ['foo' => 'bar']);
-        $this->assertEquals('application/json', $returned->getHeaderLine('Content-Type'));
-        $this->assertEquals(200, $returned->getStatusCode());
-        $this->assertEquals('OK', $returned->getReasonPhrase());
-        $out = [
-            'foo' => 'bar',
-            'success' => true,
-            'message' => 'Objects updated successfully',
-            'objects' => [
-                ['type' => 'foobar', 'id' => 1]
-            ]
-        ];
-        $this->assertEquals(json_encode($out), (string) $returned->getBody());
     }
 }

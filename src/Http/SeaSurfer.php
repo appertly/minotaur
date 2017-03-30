@@ -113,7 +113,6 @@ class SeaSurfer implements \Minotaur\Route\Plugin
             try {
                 $principal = $request->getAttribute('principal');
                 if (!($principal instanceof \Caridea\Auth\Principal)) {
-                    echo "NOT A PRINCIPAL", PHP_EOL;
                     throw new \UnexpectedValueException("Request attribute 'principal' must be a Principal");
                 }
                 if (!$principal->isAnonymous()) {

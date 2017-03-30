@@ -90,7 +90,8 @@ abstract class Primitive extends Node
                 $this->appendChild($v);
             }
         } elseif ($child instanceof Frag) {
-            array_push($this->children, ...$child->getChildren());
+          foreach($child->getChildren() as $v)
+            $this->children[] = $v;
         } elseif ($child !== null) {
             if (is_string($child) || is_float($child) || is_int($child)) {
                 $child = new Scalar($child);

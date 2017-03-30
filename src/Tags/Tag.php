@@ -66,9 +66,9 @@ class Tag extends Primitive
         foreach ($this->attributes as $k => $v) {
             if ($v !== null && $v !== false) {
                 if ($v === true) {
-                    $out .= ' ' . htmlspecialchars($k);
+                    $out .= ' ' . htmlspecialchars((string)$k);
                 } else {
-                    $out .= ' ' . htmlspecialchars($k) . '="' .
+                    $out .= ' ' . htmlspecialchars((string)$k) . '="' .
                         htmlspecialchars((string) $v, ENT_COMPAT) . '"';
                 }
             }

@@ -37,8 +37,8 @@ class axe_breadcrumbs extends Composited
                 new Tag('li', ['class' => 'breadcrumb-item'], $child)
             );
         }
-        $ul = new Tag('ul', [], $frag);
-        $this->transferAttributes($ul);
+        $ul = new Tag('ul', ['class' => "breadcrumb"], $frag);
+        $this->transferAllAttributes($ul);
         return $ul;
     }
 }

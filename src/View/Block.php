@@ -31,5 +31,5 @@ interface Block
      * @param \Psr\Http\Message\ServerRequestInterface $request The server request
      * @return \Minotaur\Tags\Node The content to render
      */
-    public function compose(?\Psr\Http\Message\ServerRequestInterface $request = null): \Minotaur\Tags\Node
+    public function compose(?\Psr\Http\Message\ServerRequestInterface $request = null): \Minotaur\Tags\Node;
 }

@@ -48,11 +48,11 @@ trait MongoHelper
      */
     protected function toIds(iterable $ids): array
     {
-        $ids = [];
+        $mids = [];
         foreach ($ids as $a) {
-            $ids[] = $a instanceof ObjectID ? $a : new ObjectID((string) $a);
+            $mids[] = $a instanceof ObjectID ? $a : new ObjectID((string) $a);
         }
-        return $ids;
+        return $mids;
     }
 
     /**

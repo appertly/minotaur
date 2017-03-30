@@ -69,7 +69,7 @@ class Rescuer implements \Minotaur\Route\Plugin
     {
         $this->debug = (bool)($options['debug'] ?? false);
         $c = (string)($options['xhpClass'] ?? 'labrys_error_page');
-        if (!is_subclass_of($c, \Minotaur\Tags\Node::class)) {
+        if (!is_subclass_of($c, \Minotaur\Tags\Primitive::class)) {
             throw new \InvalidArgumentException("Class given in xhpClass option '$c' does not extend \Minotaur\Tags\Node");
         }
         $this->xhpClass = $c;
