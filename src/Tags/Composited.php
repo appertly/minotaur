@@ -43,7 +43,7 @@ abstract class Composited extends Primitive
     protected function ensureAttribute(string $key, string $type, $default = null)
     {
         $attribute = $this->getAttribute($key);
-        if (!$this->hasAttribute($key)) {
+        if (!$this->hasAttribute($key) || $attribute === null) {
             return $default;
         }
         switch ($type) {
