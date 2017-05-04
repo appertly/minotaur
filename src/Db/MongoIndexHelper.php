@@ -60,7 +60,7 @@ trait MongoIndexHelper
         );
         try {
             $server = $manager->selectServer(new ReadPreference(ReadPreference::RP_PRIMARY));
-            return $operation->execute($server)->toArray();
+            return $operation->execute($server);
         } catch (\Exception $e) {
             throw \Caridea\Dao\Exception\Translator\MongoDb::translate($e);
         }
@@ -92,7 +92,7 @@ trait MongoIndexHelper
             $op = new ListIndexes($db, $collection);
             $delete = [];
             foreach ($op->execute($server) as $k => $v) {
-                if ($names->contains($v->getName())) {
+                if (in_array($v->getName(), $names)) {
                     $delete[$v->getName()] = true;
                 }
             }
