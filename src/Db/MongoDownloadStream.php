@@ -200,7 +200,7 @@ class MongoDownloadStream implements StreamInterface
      */
     public function read($length): string
     {
-        return $this->download->downloadNumBytes($length);
+        return $this->download->readBytes($length);
     }
 
     /**
@@ -212,7 +212,7 @@ class MongoDownloadStream implements StreamInterface
      */
     public function getContents(): string
     {
-        return $this->download->downloadNumBytes($this->download->getSize());
+        return $this->download->readBytes($this->download->getSize());
     }
 
     /**
