@@ -33,7 +33,7 @@ class axe_fieldset extends Composited
         $class = $this->getAttribute('inline') ? 'inline-fieldset' : 'fieldset-and-legend';
         $a = new Tag("fieldset.$class", [], [
             new Tag('legend', [], [
-                new Tag('span.legend-text', [], $this->ensureAttribute('legend', 'string', ''))
+                new Tag('span.legend-text', [], $this->getAttribute('legend'))
             ]),
             new Tag('div.form-groups', [], $this->getChildren()),
         ]);
