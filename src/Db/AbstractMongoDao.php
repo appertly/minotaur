@@ -247,10 +247,10 @@ abstract class AbstractMongoDao extends MongoDbDao implements EntityRepo, DbRefR
             }
             return array_merge(
                 $fromCache,
-                $this->maybeCacheAll($this->findAll(['_id' => ['$in' => $mids]]))
+                $this->maybeCacheAll($this->findAll(['_id' => ['$in' => array_values($mids)]]))
             );
         } else {
-            return $this->maybeCacheAll($this->findAll(['_id' => ['$in' => $mids]]));
+            return $this->maybeCacheAll($this->findAll(['_id' => ['$in' => array_values($mids)]]));
         }
     }
 
