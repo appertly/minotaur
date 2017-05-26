@@ -54,6 +54,6 @@ class JsonMapper
         if (!is_array($a)) {
             throw new Exception\Illegible($json, "Invalid JSON map");
         }
-        return new HH\Map($a);
+        return new \HH\Map($a);
     }
 }
