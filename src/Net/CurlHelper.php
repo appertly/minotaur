@@ -114,17 +114,29 @@ trait CurlHelper
         curl_setopt($ch, CURLINFO_HEADER_OUT, true);
         $mh = curl_multi_init();
         curl_multi_add_handle($mh, $ch);
-        $active = null;
+        $sleep_ms = 10;
         do {
-            $status = curl_multi_exec($mh, $active);
-        } while ($status == CURLM_CALL_MULTI_PERFORM);
-        while ($active && $status == CURLM_OK) {
-            if (curl_multi_select($mh) != -1) {
-                do {
-                    $status = curl_multi_exec($mh, $active);
-                } while ($status == CURLM_CALL_MULTI_PERFORM);
+            $active = 1;
+            do {
+                $status = curl_multi_exec($mh, $active);
+            } while ($status == CURLM_CALL_MULTI_PERFORM);
+            if (!$active) {
+                break;
             }
-        }
+            $select = curl_multi_select($mh);
+            /* If cURL is built without ares support, DNS queries don't have a socket
+            * to wait on, so curl_multi_await() (and curl_select() in PHP5) will return
+            * -1, and polling is required.
+            */
+            if ($select == -1) {
+                sleep($sleep_ms);
+                if ($sleep_ms < 1000) {
+                    $sleep_ms *= 2;
+                }
+            } else {
+                $sleep_ms = 10;
+            }
+        } while ($status === CURLM_OK);
         $info = curl_multi_info_read($mh);
         $code = $info['result'];
         $content = curl_multi_getcontent($ch);
