@@ -38,6 +38,7 @@ class DispatcherTest extends TestCase
 
     public function __construct(string $header = 'foobar')
     {
+        parent::__construct();   
         $this->header = $header;
     }
 

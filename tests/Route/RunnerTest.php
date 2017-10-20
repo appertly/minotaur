@@ -31,6 +31,7 @@ class RunnerTest extends TestCase implements Plugin
 
     public function __construct(int $priority = 0)
     {
+        parent::__construct(); 
         $this->priority = $priority;
     }
 

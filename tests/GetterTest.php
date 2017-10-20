@@ -22,7 +22,7 @@ namespace Minotaur;
 
 use PHPUnit\Framework\TestCase;
 
-class GetterTest
+class GetterTest extends TestCase
 {
     public function testGet()
     {
