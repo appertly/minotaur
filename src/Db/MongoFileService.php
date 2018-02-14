@@ -20,6 +20,7 @@ declare(strict_types=1);
  */
 namespace Minotaur\Db;
 
+use MongoDB\Driver\ReadPreference;
 use MongoDB\BSON\ObjectID;
 use MongoDB\GridFS\Bucket;
 use Psr\Http\Message\StreamInterface;
@@ -170,10 +171,11 @@ class MongoFileService implements \Minotaur\Io\FileService
      */
     public function readAll(array $criteria): \Traversable
     {
+        $readPreference = new ReadPreference(ReadPreference::RP_PRIMARY);
         return $this->doExecute(function (Bucket $bucket) use ($criteria) {
             return $bucket->find(
                 $criteria,
-                ['sort' => ['filename' => 1]]
+                ['sort' => ['filename' => 1], 'readPreference' => $readPreference]
             );
         });
     }
