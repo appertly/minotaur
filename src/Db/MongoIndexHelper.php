@@ -49,7 +49,7 @@ trait MongoIndexHelper
      * @throws \Caridea\Dao\Exception\Inoperable If an API is used incorrectly
      * @throws \Caridea\Dao\Exception\Generic If any other database problem occurs
      */
-    protected function createIndexes(\MongoDB\Driver\Manager $manager, string $db, string $collection, array $indexes): array
+    protected function createIndexes(\MongoDB\Driver\Manager $manager, string $db, string $collection, array $indexes, bool $legacy = true ): array
     {
         $operation = new CreateIndexes(
             $db,
@@ -60,7 +60,11 @@ trait MongoIndexHelper
         );
         try {
             $server = $manager->selectServer(new ReadPreference(ReadPreference::RP_PRIMARY));
-            return $operation->execute($server);
+            if ($legacy) {
+                return $operation->executeLegacy($server);
+            } else {
+                return $operation->execute($server);
+            }
         } catch (\Exception $e) {
             throw \Caridea\Dao\Exception\Translator\MongoDb::translate($e);
         }
