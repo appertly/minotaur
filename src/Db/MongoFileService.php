@@ -172,7 +172,7 @@ class MongoFileService implements \Minotaur\Io\FileService
     public function readAll(array $criteria): \Traversable
     {
         $readPreference = new ReadPreference(ReadPreference::RP_PRIMARY);
-        return $this->doExecute(function (Bucket $bucket) use ($criteria) {
+        return $this->doExecute(function (Bucket $bucket) use ($criteria, $readPreference) {
             return $bucket->find(
                 $criteria,
                 ['sort' => ['filename' => 1], 'readPreference' => $readPreference]
